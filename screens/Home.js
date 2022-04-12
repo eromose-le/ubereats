@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import HeaderTabs from '../components/home/HeaderTabs';
 import SearchBar from '../components/home/SearchBar';
 import Categories from '../components/home/Categories';
-import ResturantItem from '../components/home/ResturantItem';
+import RestaurantItems from '../components/home/RestaurantItems';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('Delivery');
@@ -16,7 +16,7 @@ export default function Home() {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Categories />
-        <ResturantItem />
+        <RestaurantItems />
       </ScrollView>
     </SafeAreaView>
   );
