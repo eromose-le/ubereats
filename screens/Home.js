@@ -7,9 +7,39 @@ import RestaurantItems, {
   localRestaurants
 } from '../components/home/RestaurantItems';
 
+// CLIENT ID - 'akyFkugBlWDE6U09V3Sr3w'
+
+const YELP_API_KEY =
+  'DZ8uQ0w1MjWZcINiq9dGUVH_Jv_1DCOn9FI9NF2_qMSznvq2PLeZhhkSiSfo_bRuzByyYM4wb1NgIiD3Do6kgvtqA-rm0bqjdRV5HTg0NR2bOvKCyyqjN2lF-sZVYnYx';
+
 export default function Home() {
-  const [restaurantData, setRestaurantData] = useState(localRestaurants);
+  const [restaurantData, setRestaurantData] = useState(localRestaurants || []);
+  const [city, setCity] = useState('San Francisco');
   const [activeTab, setActiveTab] = useState('Delivery');
+
+  const getRestaurantsFromYelp = () => {
+    const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
+
+    const apiOptions = {
+      headers: {
+        Authorization: `Bearer ${YELP_API_KEY}`
+      }
+    };
+
+    return fetch(yelpUrl, apiOptions)
+      .then((res) => res.json())
+      .then((json) =>
+        setRestaurantData(
+          json.businesses.filter((business) =>
+            business.transactions.includes(activeTab.toLowerCase())
+          )
+        )
+      );
+  };
+
+  useEffect(() => {
+    getRestaurantsFromYelp();
+  }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: '#eee', flex: 1 }}>
