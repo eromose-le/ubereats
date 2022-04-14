@@ -11,3 +11,6 @@
     - RestaurantItems
       - RestaurantImage
       - RestaurantInfo
+  - RestaurantDetail
+    - About
+    - MenuItems

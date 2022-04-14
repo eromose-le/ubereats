@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  Appearance
+} from 'react-native';
 import HeaderTabs from '../components/home/HeaderTabs';
 import SearchBar from '../components/home/SearchBar';
 import Categories from '../components/home/Categories';
 import RestaurantItems, {
   localRestaurants
 } from '../components/home/RestaurantItems';
+// import { Divider } from 'react-native-elements';
+import BottomTabs from '../components/home/BottomTabs';
+
+import FocusedStatusBar from '../components/FocusedStatusBar';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { useDarkMode } from 'react-native-dynamic';
 
 // CLIENT ID - 'akyFkugBlWDE6U09V3Sr3w'
 
@@ -16,6 +29,7 @@ export default function Home() {
   const [restaurantData, setRestaurantData] = useState(localRestaurants || []);
   const [city, setCity] = useState('San Francisco');
   const [activeTab, setActiveTab] = useState('Delivery');
+  const [isDarkMode, setIsDarkMode] = useState();
 
   const getRestaurantsFromYelp = async () => {
     const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
@@ -43,16 +57,45 @@ export default function Home() {
     getRestaurantsFromYelp();
   }, [city, activeTab]);
 
+  // console.log(window.matchMedia('(prefers-color-scheme: dark').matches);
+  // @media (prefers-color-scheme: dark) {
+  //   color: white;
+  // }
+
+  // PLATFORM DISPLAY MODES
+  const iosMode = Appearance.getColorScheme(); // light
+  const drkMode = useDarkMode(); // true || false
+  const PlatformOS = Platform.OS;
+
+  const SmartBarHeightSize = () => {
+    if (PlatformOS === 'ios')
+      return getStatusBarHeight() === 44
+        ? getStatusBarHeight() - 40
+        : getStatusBarHeight() - 15;
+
+    if (PlatformOS === 'android') return getStatusBarHeight(true);
+  };
   return (
-    <SafeAreaView style={{ backgroundColor: '#eee', flex: 1 }}>
-      <View style={{ backgroundColor: 'white', padding: 15 }}>
-        <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <SearchBar cityHandler={setCity} />
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Categories />
-        <RestaurantItems restaurantData={restaurantData} />
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{ backgroundColor: '#eee', flex: 1 }}>
+        <FocusedStatusBar barStyle="dark-content" />
+        <View
+          style={{
+            backgroundColor: 'white',
+            padding: 15,
+            marginTop: SmartBarHeightSize()
+          }}
+        >
+          <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+          <SearchBar cityHandler={setCity} />
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Categories />
+          <RestaurantItems restaurantData={restaurantData} />
+        </ScrollView>
+        {/* <Divider width={1} /> */}
+        <BottomTabs />
+      </SafeAreaView>
+    </>
   );
 }
