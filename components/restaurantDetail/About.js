@@ -1,35 +1,43 @@
 import { View, Text, Image } from 'react-native';
 import React from 'react';
 
-const yelpRestaurantInfo = {
-  name: 'Mama put Afam Kitchen',
-  image:
-    'https://media.istockphoto.com/photos/colorful-background-of-pastel-powder-explosionrainbow-color-dust-on-picture-id1180542165?k=20&m=1180542165&s=612x612&w=0&h=43hlhk8qdGYP4V-u3AAxD3kPDRIzHjMNWpr-VdBQ2Js=',
-  price: '$$',
-  reviews: '1500',
-  rating: 4.5,
-  categories: [
-    {
-      title: 'Thai'
-    },
-    {
-      title: 'Comfort Food'
-    },
-    {
-      title: 'Bee Honey'
-    }
-  ]
-};
+// const yelpRestaurantInfo = {
+//   name: 'Mama put Afam Kitchen',
+//   image:
+//     'https://media.istockphoto.com/photos/colorful-background-of-pastel-powder-explosionrainbow-color-dust-on-picture-id1180542165?k=20&m=1180542165&s=612x612&w=0&h=43hlhk8qdGYP4V-u3AAxD3kPDRIzHjMNWpr-VdBQ2Js=',
+//   price: '$$',
+//   reviews: '1500',
+//   rating: 4.5,
+//   categories: [
+//     {
+//       title: 'Thai'
+//     },
+//     {
+//       title: 'Comfort Food'
+//     },
+//     {
+//       title: 'Bee Honey'
+//     }
+//   ]
+// };
 
-const { name, image, price, reviews, rating, categories } = yelpRestaurantInfo;
+// const { name, image, price, reviews, rating, categories } = yelpRestaurantInfo;
 
-const formattedCategories = categories.map((cat) => cat.title).join(' . ');
+// const formattedCategories = categories.map((cat) => cat.title).join(' . ');
 
-const description = `${formattedCategories} ${
-  price ? ' .' + price : ''
-} . ⭐ . ${rating} ⭐ (${reviews}+)`;
+// const description = `${formattedCategories} ${
+//   price ? ' .' + price : ''
+// } . ⭐ . ${rating} ⭐ (${reviews}+)`;
 
 export const About = (props) => {
+  const { name, image, price, reviews, rating, categories } =
+    props.route.params;
+
+  const formattedCategories = categories.map((cat) => cat.title).join(' . ');
+
+  const description = `${formattedCategories} ${
+    price ? ' .' + price : ''
+  } . ⭐ . ${rating} ⭐ (${reviews}+)`;
   return (
     <View>
       <RestaurantImage image={image} />

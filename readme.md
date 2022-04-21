@@ -13,4 +13,11 @@
       - RestaurantInfo
   - RestaurantDetail
     - About
+      - RestaurantImage
+      - RestaurantName
+      - RestaurantDescription
     - MenuItems
+      - FoodInfo
+      - FoodImage
+
+"npm dedupe"

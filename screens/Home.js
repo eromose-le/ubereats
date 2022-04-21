@@ -25,11 +25,10 @@ import { useDarkMode } from 'react-native-dynamic';
 const YELP_API_KEY =
   'DZ8uQ0w1MjWZcINiq9dGUVH_Jv_1DCOn9FI9NF2_qMSznvq2PLeZhhkSiSfo_bRuzByyYM4wb1NgIiD3Do6kgvtqA-rm0bqjdRV5HTg0NR2bOvKCyyqjN2lF-sZVYnYx';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [restaurantData, setRestaurantData] = useState(localRestaurants || []);
   const [city, setCity] = useState('San Francisco');
   const [activeTab, setActiveTab] = useState('Delivery');
-  const [isDarkMode, setIsDarkMode] = useState();
 
   const getRestaurantsFromYelp = async () => {
     const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
@@ -76,26 +75,27 @@ export default function Home() {
     if (PlatformOS === 'android') return getStatusBarHeight(true);
   };
   return (
-    <>
-      <SafeAreaView style={{ backgroundColor: '#eee', flex: 1 }}>
-        <FocusedStatusBar barStyle="dark-content" />
-        <View
-          style={{
-            backgroundColor: 'white',
-            padding: 15,
-            marginTop: SmartBarHeightSize()
-          }}
-        >
-          <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-          <SearchBar cityHandler={setCity} />
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Categories />
-          <RestaurantItems restaurantData={restaurantData} />
-        </ScrollView>
-        {/* <Divider width={1} /> */}
-        <BottomTabs />
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={{ backgroundColor: '#eee', flex: 1 }}>
+      <FocusedStatusBar barStyle="dark-content" />
+      <View
+        style={{
+          backgroundColor: 'white',
+          padding: 15,
+          marginTop: SmartBarHeightSize()
+        }}
+      >
+        <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        <SearchBar cityHandler={setCity} />
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Categories />
+        <RestaurantItems
+          restaurantData={restaurantData}
+          navigation={navigation}
+        />
+      </ScrollView>
+      {/* <Divider width={1} /> */}
+      <BottomTabs />
+    </SafeAreaView>
   );
 }
