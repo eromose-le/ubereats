@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-// import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 // import OrderItem from "./OrderItem";
 // import firebase from "../../firebase";
 // import LottieView from "lottie-react-native";
@@ -9,18 +9,22 @@ export default function ViewCart({ navigation }) {
   // const [modalVisible, setModalVisible] = useState(false);
   // const [loading, setLoading] = useState(false);
 
-  // const { items, restaurantName } = useSelector(
-  //   (state) => state.cartReducer.selectedItems
-  // );
+  const { items, restaurantName } = useSelector(
+    (state) => state.cartReducer.selectedItems
+  );
 
-  // const total = items
-  //   .map((item) => Number(item.price.replace("$", "")))
-  //   .reduce((prev, curr) => prev + curr, 0);
+  // CONVERT TO NUMBER THEN REPLACE '$' THEN SUM TOTAL PRICES IN CART
+  const total = items
+    .map((item) => Number(item.price.replace('$', '')))
+    .reduce((prev, curr) => prev + curr, 0);
 
-  // const totalUSD = total.toLocaleString("en", {
-  //   style: "currency",
-  //   currency: "USD",
-  // });
+  // CONVERT PRICING BACK TO USD
+  const totalUSD = total.toLocaleString('en', {
+    style: 'currency',
+    currency: 'USD'
+  });
+
+  console.log(totalUSD);
 
   // const addOrderToFireBase = () => {
   //   setLoading(true);
@@ -125,47 +129,58 @@ export default function ViewCart({ navigation }) {
 
   return (
     <>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          position: 'absolute',
-          bottom: 30,
-          zIndex: 999
-        }}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            width: '100%'
-          }}
-        >
-          <TouchableOpacity
+      {total ? (
+        <>
+          <View
             style={{
-              marginTop: 20,
-              backgroundColor: 'black',
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
               flexDirection: 'row',
-              justifyContent: 'space-around',
-              padding: 15,
-              borderRadius: 30,
-              width: 300,
-              position: 'relative'
+              position: 'absolute',
+              bottom: 30,
+              zIndex: 999
             }}
-            onPress={() => setModalVisible(true)}
           >
-            <Text style={{ color: 'white', fontSize: 20, flex: 1 }}></Text>
-            <Text
-              style={{ color: 'white', fontSize: 20, marginRight: 30, flex: 1 }}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: '100%'
+              }}
             >
-              View Cart
-            </Text>
-            <Text style={{ color: 'white', fontSize: 20 }}>99$</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+              <TouchableOpacity
+                style={{
+                  marginTop: 20,
+                  backgroundColor: 'black',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  padding: 15,
+                  borderRadius: 30,
+                  width: 300,
+                  position: 'relative'
+                }}
+                onPress={() => setModalVisible(true)}
+              >
+                <Text style={{ color: 'white', fontSize: 20, flex: 1 }}></Text>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 20,
+                    marginRight: 30,
+                    flex: 1
+                  }}
+                >
+                  View Cart
+                </Text>
+                <Text style={{ color: 'white', fontSize: 20 }}>{totalUSD}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </>
+      ) : (
+        <></>
+      )}
 
       {/* <View
         style={{
