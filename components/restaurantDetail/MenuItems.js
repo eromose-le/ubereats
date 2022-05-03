@@ -63,7 +63,10 @@ export default MenuItems = () => {
         <View key={index}>
           <View style={styles.menuItemStyle}>
             <BouncyCheckbox
-              iconStyle={{ borderColor: 'lightgray', borderRadius: 0 }}
+              iconStyle={{
+                borderColor: 'lightgray',
+                borderRadius: 0
+              }}
               fillColor="green"
             />
             <FoodInfo food={food} />
@@ -77,7 +80,7 @@ export default MenuItems = () => {
 };
 
 const FoodInfo = (props) => (
-  <View style={{ width: 240, justifyContent: 'space-evenly' }}>
+  <View style={{ width: 200, justifyContent: 'space-evenly' }}>
     <Text style={styles.titleStyle}>{props.food.title}</Text>
     <Text>{props.food.description}</Text>
     <Text>{props.food.price}</Text>

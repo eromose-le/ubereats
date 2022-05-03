@@ -19,5 +19,6 @@
     - MenuItems
       - FoodInfo
       - FoodImage
+    - ViewCart
 
 "npm dedupe"
