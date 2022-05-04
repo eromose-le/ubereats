@@ -16,9 +16,10 @@
       - RestaurantImage
       - RestaurantName
       - RestaurantDescription
-    - MenuItems
+    - MenuItems (redux)
       - FoodInfo
       - FoodImage
-    - ViewCart
+    - ViewCart (redux)
+      - orderItem
 
 "npm dedupe"
