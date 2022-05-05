@@ -23,3 +23,5 @@
       - orderItem
 
 "npm dedupe"
+expo install firebase
+yarn add tslib
