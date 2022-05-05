@@ -1,3 +1,5 @@
+## A RESTAURANT APPLICATION TO SEARCH RESTAURANTS AND ORDER FOOD FROM THE MENU LIST
+
 ```
 #### LAYOUT
 ```
@@ -22,6 +24,13 @@
     - ViewCart (redux)
       - orderItem
   - OrderCompleted
+
+## TECHNOLOGIES
+
+- React-native
+- Yelp API
+- Google API
+- Redux
 
 "npm dedupe"
 expo install firebase
