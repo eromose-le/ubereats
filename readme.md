@@ -21,6 +21,7 @@
       - FoodImage
     - ViewCart (redux)
       - orderItem
+  - OrderCompleted
 
 "npm dedupe"
 expo install firebase
