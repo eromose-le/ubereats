@@ -1,4 +1,13 @@
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  RefreshControl,
+  DevSettings
+} from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import Divider from '../Divider';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
@@ -17,12 +26,29 @@ const styles = StyleSheet.create({
   }
 });
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 export default MenuItems = ({
   restaurantName,
   foods,
   hideCheckbox,
   marginLeft
 }) => {
+  // get Screen name
+  // const route = useRoute();
+  // console.log(route.name);
+
+  // hard reloadScreen
+  // DevSettings.reload();
+
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   const dispatch = useDispatch();
   const selectItem = (item, checkboxValue) => {
     dispatch({
@@ -41,11 +67,18 @@ export default MenuItems = ({
   );
 
   // CHECK IF FOOD IS IN CART THEN MARK IT TRUE
-  const isFoodInCart = (food, cartItems) =>
-    Boolean(cartItems.find((item) => item.title === food.title));
+  const isFoodInCart = (food, cartItems) => {
+    if (cartItems.length === 0) return false;
+    return Boolean(cartItems.find((item) => item.title === food.title));
+  };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      showsVerticalScrollIndicator={false}
+    >
       {foods.map((food, index) => (
         <View key={index}>
           <View style={styles.menuItemStyle}>

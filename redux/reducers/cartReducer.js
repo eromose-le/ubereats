@@ -29,6 +29,22 @@ let cartReducer = (state = defaultState, action) => {
       return newState;
     }
 
+    case 'CLEAR_CART': {
+      let newState = { ...state };
+      console.log('CLEAR_CART');
+      newState.selectedItems = {
+        items: [
+          ...newState.selectedItems.items.filter(
+            (item) => item.title === action.payload.title
+          )
+        ],
+        restaurantName: action.payload.restaurantName,
+        checkboxValue: action.payload.checkboxValue
+      };
+      console.log(newState, '👉');
+      return newState;
+    }
+
     default:
       return state;
   }
